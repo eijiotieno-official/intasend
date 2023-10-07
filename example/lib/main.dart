@@ -41,19 +41,21 @@ class _ExampleScreenState extends State<ExampleScreen> {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            FilledButton(
-              onPressed: () {
-                Intasend.wallet
-                    .create(
-                      test: true,
-                      walletType: WalletType.settlement,
-                      currency: Currency.kes,
-                      canDisburse: true,
-                      label: "wallet_label",
-                    )
-                    .then((value) => debugPrint(value.toString()));
-              },
-              child: const Text("Create Wallet"),
+            Center(
+              child: FilledButton(
+                onPressed: () {
+                  Intasend.wallet
+                      .create(
+                        test: true,
+                        walletType: WalletType.settlement,
+                        currency: Currency.kes,
+                        canDisburse: true,
+                        label: "wallet_label",
+                      )
+                      .then((value) => debugPrint(value.toString()));
+                },
+                child: const Text("Create Wallet"),
+              ),
             ),
           ],
         ),
