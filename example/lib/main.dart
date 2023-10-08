@@ -5,7 +5,8 @@ Future<void> main() async {
   runApp(
     const MainApp(),
   );
-  await Intasend.init(publishableKey: "publishableKey", privateKey: "privateKey");
+  await Intasend.initialise(
+      publishableKey: "publishableKey", privateKey: "privateKey");
 }
 
 class MainApp extends StatelessWidget {
@@ -37,28 +38,25 @@ class _ExampleScreenState extends State<ExampleScreen> {
         title: const Text("Intasend"),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Column(
-          children: [
-            Center(
-              child: FilledButton(
-                onPressed: () {
-                  Intasend.wallet
-                      .create(
-                        test: true,
-                        walletType: WalletType.settlement,
-                        currency: Currency.kes,
-                        canDisburse: true,
-                        label: "wallet_label",
-                      )
-                      .then((value) => debugPrint(value.toString()));
-                },
-                child: const Text("Create Wallet"),
-              ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: FilledButton(
+              onPressed: () {
+                Intasend.createWallet(
+                  test: true,
+                  walletType: WalletType.settlement,
+                  currency: Currency.kes,
+                  canDisburse: true,
+                  label: "wallet_label",
+                ).then((value) => debugPrint(value.toString()));
+              },
+              child: const Text("Create Wallet"),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
