@@ -26,7 +26,7 @@ class Intasend {
   }
 
   /// Create a wallet supported by Intasend
-  static Future createWallet({
+  static Future<Map<String, dynamic>> createWallet({
     required bool test,
     required WalletType walletType,
     required Currency currency,
@@ -55,7 +55,7 @@ class Intasend {
 
       Map<String, dynamic> data = jsonDecode(response.body);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         return data;
       } else {
         throw Exception(data['errors'][0]['detail']);
