@@ -5,8 +5,7 @@ Future<void> main() async {
   runApp(
     const MainApp(),
   );
-  await Intasend.initialise(
-      publishableKey: "publishableKey", privateKey: "privateKey");
+  
 }
 
 class MainApp extends StatelessWidget {

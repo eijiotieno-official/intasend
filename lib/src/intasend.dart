@@ -46,6 +46,7 @@ class Intasend {
       http.Response response = await http.post(
         Uri.parse(url),
         headers: <String, String>{
+          'Content-Type': 'application/json',
           'INTASEND_PUBLIC_API_KEY': _publishableKey!,
           'Authorization': 'Bearer $_privateKey',
         },
