@@ -51,7 +51,7 @@ class _ExampleScreenState extends State<ExampleScreen> {
                   walletType: WalletType.working,
                   currency: Currency.kes,
                   canDisburse: true,
-                  label: "cmwllw89301",
+                  label: "45g4cdsvvdf",
                 ).then((value) => debugPrint(value.toString()));
               },
               child: const Text("Create Wallet"),
