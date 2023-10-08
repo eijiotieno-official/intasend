@@ -26,7 +26,7 @@ class Intasend {
   }
 
   /// Create a wallet supported by Intasend
-  static Future<Map<String, dynamic>> createWallet({
+  static Future createWallet({
     required bool test,
     required WalletType walletType,
     required Currency currency,

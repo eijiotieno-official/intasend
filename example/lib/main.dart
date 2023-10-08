@@ -5,7 +5,8 @@ Future<void> main() async {
   runApp(
     const MainApp(),
   );
-  
+  await Intasend.initialise(
+      publishableKey: "ISPubKey_test_afc2cca5-0490-40a2-b704-7c221086d84a", privateKey: "ISSecretKey_test_3fc606d8-ea85-484b-942b-00173d030d87");
 }
 
 class MainApp extends StatelessWidget {
@@ -46,7 +47,7 @@ class _ExampleScreenState extends State<ExampleScreen> {
               onPressed: () {
                 Intasend.createWallet(
                   test: true,
-                  walletType: WalletType.settlement,
+                  walletType: WalletType.working,
                   currency: Currency.kes,
                   canDisburse: true,
                   label: "wallet_label",
