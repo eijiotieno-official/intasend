@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'currency.dart';
 import 'keys.dart';
-import 'package:http/http.dart' as http;
 
 import 'utils.dart';
 import 'wallet_type.dart';
@@ -33,35 +30,93 @@ class Intasend {
     required bool canDisburse,
     required String label,
   }) async {
-    String url = "${activeHost(test: test)}/api/v1/wallets/";
-
-    final Map<String, dynamic> requestData = {
+    final Map<String, dynamic> payload = {
       'label': label,
       'wallet_type': enumStringWalletType(walletType: walletType),
       'currency': enumStringCurrency(currency: currency),
       'can_disburse': canDisburse,
     };
 
-    try {
-      http.Response response = await http.post(
-        Uri.parse(url),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'INTASEND_PUBLIC_API_KEY': _publishableKey!,
-          'Authorization': 'Bearer $_privateKey',
-        },
-        body: jsonEncode(requestData),
-      );
-
-      Map<String, dynamic> data = jsonDecode(response.body);
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return data;
-      } else {
-        throw Exception(data['errors'][0]['detail']);
-      }
-    } catch (e) {
-      throw Exception(e);
-    }
+    return await sendPostRequest(
+      endPoint: "wallets/",
+      payload: payload,
+      test: test,
+      publishableKey: _publishableKey,
+      privateKey: _privateKey,
+    );
   }
+
+  /// Fund a wallet through M-PESA
+  static Future<Map<String, dynamic>> fundWalletWithMpesa({
+    required bool test,
+    required String walletId,
+    required String phoneNumber,
+    required String email,
+    required double amount,
+    required String narrative,
+    required Currency currency,
+    required String name,
+  }) async {
+    final Map<String, dynamic> payload = {
+      'wallet_id': walletId,
+      'currency': enumStringCurrency(currency: currency),
+      'public_key': _publishableKey!,
+      'method': "M-PESA",
+      'amount': amount,
+      'phone_number': phoneNumber,
+      'api_ref': "API Request",
+      'name': name,
+      'email': email,
+      'narrative': narrative,
+    };
+
+    return await sendPostRequest(
+      endPoint: "payment/mpesa-stk-push/",
+      payload: payload,
+      test: test,
+      publishableKey: _publishableKey,
+      privateKey: _privateKey,
+    );
+  }
+
+  // static Future<Map<String, dynamic>> checkOut({
+  //   required bool test,
+  //   required String walletId,
+  //   required String phoneNumber,
+  //   required String email,
+  //   required double amount,
+  //   required Currency currency,
+  //   required String firstName,
+  //   required String lastName,
+  //   required String method,
+  //   String apiRef = "API Request",
+  //   required String comment,
+  //   required String callbackUrl,
+  //   required String mobileTarrif,
+  //   required String cardTarrif,
+  // }) async {
+  //   final Map<String, dynamic> requestData = {
+  //     'wallet_id': walletId,
+  //     'currency': enumStringCurrency(currency: currency),
+  //     'public_key': _publishableKey!,
+  //     'method': method,
+  //     'amount': amount,
+  //     'phone_number': phoneNumber,
+  //     'api_ref': apiRef,
+  //     'callback_url': callbackUrl,
+  //     'comment': comment,
+  //     "first_name": firstName,
+  //     "last_name": lastName,
+  //     'email': email,
+  //     'mobile_tarrif': mobileTarrif,
+  //     'card_tarrif': cardTarrif,
+  //     "version": "3.0.0"
+  //   };
+
+  //   return await sendRequest(
+  //     endPoint: "checkout/",
+  //     requestData: requestData,
+  //     test: test,
+  //   );
+  // }
 }
