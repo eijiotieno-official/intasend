@@ -5,9 +5,10 @@ Future<void> main() async {
   runApp(
     const MainApp(),
   );
-  await Intasend.initialise(
-      publishableKey: "ISPubKey_test_afc2cca5-0490-40a2-b704-7c221086d84a",
-      privateKey: "ISSecretKey_test_3fc606d8-ea85-484b-942b-00173d030d87");
+  Intasend.init(
+    publishableKey: "ISPubKey_test_afc2cca5-0490-40a2-b704-7c221086d84a",
+    privateKey: "ISSecretKey_test_3fc606d8-ea85-484b-942b-00173d030d87",
+  );
 }
 
 class MainApp extends StatelessWidget {
@@ -36,25 +37,27 @@ class _ExampleScreenState extends State<ExampleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Intasend"),
+        title: const Text("Intasend Wallets"),
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(
               child: FilledButton(
                 onPressed: () {
-                  Intasend.createWallet(
-                    test: true,
-                    walletType: WalletType.working,
-                    currency: Currency.kes,
-                    canDisburse: true,
-                    label: "urfu349023od",
-                  ).then((value) => debugPrint(value.toString()));
+                  Intasend.wallet
+                      .create(
+                        test: true,
+                        walletType: WalletType.working,
+                        currency: Currency.kes,
+                        canDisburse: true,
+                        label: "urfu349023od",
+                      )
+                      .then((value) => debugPrint(value.toString()));
                 },
                 child: const Text("Create Wallet"),
               ),
@@ -62,18 +65,56 @@ class _ExampleScreenState extends State<ExampleScreen> {
             Center(
               child: FilledButton(
                 onPressed: () {
-                  Intasend.fundWalletWithMpesa(
-                    test: true,
-                    walletId: "GR8JNZR",
-                    phoneNumber: "254706733999",
-                    email: "eijiotieno.official.mail@gmail.com",
-                    amount: 10,
-                    narrative: "narrative",
-                    currency: Currency.kes,
-                    name: "eijiotieno",
-                  ).then((value) => debugPrint(value.toString()));
+                  Intasend.wallet
+                      .fund(
+                        test: true,
+                        walletId: "GR8JNZR",
+                        phoneNumber: "254706733999",
+                        email: "eijiotieno.official.mail@gmail.com",
+                        amount: 10,
+                        narrative: "narrative",
+                        currency: Currency.kes,
+                        name: "eijiotieno",
+                      )
+                      .then((value) => debugPrint(value.toString()));
                 },
                 child: const Text("Fund with M-PESA"),
+              ),
+            ),
+            Center(
+              child: FilledButton(
+                onPressed: () {
+                  Intasend.wallet
+                      .details(test: true, walletId: "GR8JNZR")
+                      .then((value) => debugPrint(value.toString()));
+                },
+                child: const Text("Wallet Details"),
+              ),
+            ),
+            Center(
+              child: FilledButton(
+                onPressed: () {
+                  Intasend.wallet
+                      .transactions(test: true, walletId: "GR8JNZR")
+                      .then((value) => debugPrint(value.toString()));
+                },
+                child: const Text("Wallet's Transactions History"),
+              ),
+            ),
+            Center(
+              child: FilledButton(
+                onPressed: () {
+                  Intasend.wallet
+                      .intraTransfer(
+                        test: true,
+                        originId: "originId",
+                        destinationId: "destinationId",
+                        amount: 5,
+                        narrative: "narrative",
+                      )
+                      .then((value) => debugPrint(value.toString()));
+                },
+                child: const Text("Intra-Transfer"),
               ),
             ),
           ],

@@ -7,7 +7,7 @@ String testHost = "https://sandbox.intasend.com";
 
 String activeHost({required bool test}) => test ? testHost : host;
 
-/// Call [sendRequest] POST operations method
+/// Call [sendRequest] for POST operations method
 Future<Map<String, dynamic>> sendPostRequest({
   required String endPoint,
   required Map<String, dynamic> payload,
@@ -26,6 +26,37 @@ Future<Map<String, dynamic>> sendPostRequest({
         'Authorization': 'Bearer $privateKey',
       },
       body: jsonEncode(payload),
+    );
+
+    Map<String, dynamic> data = jsonDecode(response.body);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return data;
+    } else {
+      throw Exception(data['errors'][0]['detail']);
+    }
+  } catch (e) {
+    throw Exception(e);
+  }
+}
+
+/// Call [sendRequest] for GET operations method
+Future<Map<String, dynamic>> sendGetRequest({
+  required String endPoint,
+  required String? publishableKey,
+  required String? privateKey,
+  required bool test,
+}) async {
+  String url = "${activeHost(test: test)}/api/v1/$endPoint";
+
+  try {
+    http.Response response = await http.get(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'INTASEND_PUBLIC_API_KEY': publishableKey!,
+        'Authorization': 'Bearer $privateKey',
+      },
     );
 
     Map<String, dynamic> data = jsonDecode(response.body);
