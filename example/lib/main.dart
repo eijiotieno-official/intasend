@@ -39,25 +39,45 @@ class _ExampleScreenState extends State<ExampleScreen> {
         title: const Text("Intasend"),
         centerTitle: true,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: FilledButton(
-              onPressed: () {
-                Intasend.createWallet(
-                  test: true,
-                  walletType: WalletType.working,
-                  currency: Currency.kes,
-                  canDisburse: true,
-                  label: "45g4cdsvvdf",
-                ).then((value) => debugPrint(value.toString()));
-              },
-              child: const Text("Create Wallet"),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Center(
+              child: FilledButton(
+                onPressed: () {
+                  Intasend.createWallet(
+                    test: true,
+                    walletType: WalletType.working,
+                    currency: Currency.kes,
+                    canDisburse: true,
+                    label: "urfu349023od",
+                  ).then((value) => debugPrint(value.toString()));
+                },
+                child: const Text("Create Wallet"),
+              ),
             ),
-          ),
-        ],
+            Center(
+              child: FilledButton(
+                onPressed: () {
+                  Intasend.fundWalletWithMpesa(
+                    test: true,
+                    walletId: "GR8JNZR",
+                    phoneNumber: "254706733999",
+                    email: "eijiotieno.official.mail@gmail.com",
+                    amount: 10,
+                    narrative: "narrative",
+                    currency: Currency.kes,
+                    name: "eijiotieno",
+                  ).then((value) => debugPrint(value.toString()));
+                },
+                child: const Text("Fund with M-PESA"),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
