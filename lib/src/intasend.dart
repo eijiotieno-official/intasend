@@ -1,4 +1,6 @@
+import 'customer/customer.dart';
 import 'keys.dart';
+import 'transfer/transfer.dart';
 import 'wallet/wallet.dart';
 
 class Intasend {
@@ -16,4 +18,8 @@ class Intasend {
       Keys(privateKey: _privateKey!, publishableKey: _publishableKey!);
 
   static Wallet get wallet => Wallet();
+
+  static Customer get customer => Customer();
+
+  static Transfer get transfer => Transfer();
 }
