@@ -73,6 +73,21 @@ class Wallet {
     );
   }
 
+  Future<Map<String, dynamic>> retrieve({
+    required bool test,
+    String? walletId,
+  }) async {
+    if (walletId != null) {
+      return details(test: test, walletId: walletId);
+    }
+    return await sendGetRequest(
+      endPoint: "wallets/",
+      publishableKey: Intasend.keys.publishableKey,
+      privateKey: Intasend.keys.privateKey,
+      test: test,
+    );
+  }
+
   /// Get transactions made with a specific wallet
   Future<Map<String, dynamic>> transactions({
     required bool test,

@@ -1,28 +1,22 @@
 import 'package:intasend/intasend.dart';
 import 'package:intasend/src/utils.dart';
 
-class Customer {
-  Future<Map<String, dynamic>> details({
-    required bool test,
-    required String customerId,
-  }) async {
-    return await sendGetRequest(
-      endPoint: "customers/$customerId",
-      publishableKey: Intasend.keys.publishableKey,
-      privateKey: Intasend.keys.privateKey,
-      test: test,
-    );
-  }
-
+class ChargeBacks {
   Future<Map<String, dynamic>> create({
     required bool test,
-    required String email,
+    required dynamic invoice,
+    required int amount,
+    required String reason,
+    required String reasonDetails,
   }) async {
     final Map<String, dynamic> payload = {
-      'email': email,
+      "invoice": invoice,
+      "amount": amount,
+      "reason": reason,
+      "reason_details": reasonDetails
     };
     return await sendPostRequest(
-      endPoint: "customers/",
+      endPoint: "chargebacks/",
       payload: payload,
       test: test,
       publishableKey: Intasend.keys.publishableKey,
@@ -32,25 +26,25 @@ class Customer {
 
   Future<Map<String, dynamic>> retrieve({
     required bool test,
-    String? customerId,
+    String? chargebackId,
   }) async {
-    if (customerId != null) {
-      return details(test: test, customerId: customerId);
+    if (chargebackId != null) {
+      return details(test: test, chargebackId: chargebackId);
     }
     return await sendGetRequest(
-      endPoint: "customers/$customerId",
+      endPoint: "chargebacks/",
       publishableKey: Intasend.keys.publishableKey,
       privateKey: Intasend.keys.privateKey,
       test: test,
     );
   }
 
-  Future<Map<String, dynamic>> transactions({
+  Future<Map<String, dynamic>> details({
     required bool test,
-    required String customerId,
+    required String chargebackId,
   }) async {
     return await sendGetRequest(
-      endPoint: "customers/$customerId/transactions",
+      endPoint: "chargebacks/$chargebackId",
       publishableKey: Intasend.keys.publishableKey,
       privateKey: Intasend.keys.privateKey,
       test: test,

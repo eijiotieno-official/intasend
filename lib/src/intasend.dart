@@ -1,3 +1,6 @@
+import 'package:intasend/src/chargeback/chargebacks.dart';
+import 'package:intasend/src/collect/collect.dart';
+
 import 'customer/customer.dart';
 import 'keys.dart';
 import 'transfer/transfer.dart';
@@ -22,4 +25,8 @@ class Intasend {
   static Customer get customer => Customer();
 
   static Transfer get transfer => Transfer();
+
+  static ChargeBacks get chargeBacks => ChargeBacks();
+
+  static Collect get collect => Collect();
 }
